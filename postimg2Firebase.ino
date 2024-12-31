@@ -1,7 +1,6 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
-#include <WebSocketsClient.h>
 #include "esp_camera.h"
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
