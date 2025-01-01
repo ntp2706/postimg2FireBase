@@ -4,11 +4,10 @@
 #include "esp_camera.h"
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
-
 #define SSID "NTP"
 #define PASSWORD "qwert123"
 
-const String FIREBASE_STORAGE_BUCKET = "";
+const String FIREBASE_STORAGE_BUCKET = "**************************";
 
 String Feedback=""; 
 String Command="";
@@ -97,7 +96,7 @@ void setup() {
     s->set_saturation(s, 0);
   }
 
-  s->set_framesize(s, FRAMESIZE_VGA);
+  s->set_framesize(s, FRAMESIZE_QVGA);
   s->set_hmirror(s, 1); 
 
   WiFi.begin(SSID, PASSWORD);
@@ -130,12 +129,12 @@ static const char PROGMEM INDEX_HTML[] = R"rawliteral(
     .flashLabel img:hover { transform: scale(1.1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
     .barContainer { display: flex; margin-top: 0px; padding: 10px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: opacity 0.3s, transform 0.3s; }
     .flashBar { width: 4px; height: 140px; -webkit-appearance: slider-vertical; }
-    .input {display: flex; justify-content: center; width: 680px; margin: 40px auto auto auto; padding: 20px; box-shadow: 0px 0px 20px rgba(0,0,0,0.2); background-color: #fff; border-radius: 5px;}
-    .inputCamera {width: 640px; height: 530px; display: flex; flex-direction: column; background-color: #ffffff;}
+    .input {display: flex; justify-content: center; width: 360px; margin: 40px auto auto auto; padding: 20px; box-shadow: 0px 0px 20px rgba(0,0,0,0.2); background-color: #fff; border-radius: 5px;}
+    .inputCamera {width: 320px; height: 290px; display: flex; flex-direction: column; background-color: #ffffff;}
     .inputCamera > div {padding: 0px; margin: 0px auto;}
     button {background-color: #4CAF50; margin: 10px auto; padding: 10px; color: #fff; border: none; border-radius: 5px; cursor: pointer;}
     button:hover {background-color: #45a049; transform: scale(1.1); font-weight: bold;}
-    img {width: 640px; height: 480px; background-color: #fff;}
+    img {width: 320px; height: 240px; background-color: #fff;}
     .hidden {display: none;}
   </style>
 </head>
@@ -186,13 +185,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
   const ifr = document.getElementById('ifr');
   const flash = document.getElementById('flash');
      
-  var timestampTemp;  
   var streamState = false;
 
   streamBtn.onclick = function (event) {
     streamState = true;
     streamContainer.src = location.origin+'/?getstill='+Math.random();
-    timestamp = (now.getFullYear() * 10000000000 + (now.getMonth() + 1) * 100000000 + now.getDate() * 1000000 + now.getHours() * 10000 + now.getMinutes() * 100 + now.getSeconds()).toString();    
   };
 
   streamContainer.onload = function (event) {
@@ -220,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   };
 
   saveBtn.onclick = function (event) {
-    ifr.src = baseHost + '?saveimage=' + timestamp;
+    ifr.src = baseHost + '?saveimage=' + Date.now();
   };
 
 });
